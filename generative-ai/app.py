@@ -3,37 +3,34 @@ import openai
 
 openai.api_key = st.secrets["api_key"]
 
-st.title("Naming for Programmer")
-st.text("변수나 함수를 설명하면 변수명과 함수명을 추천해드릴게요")
-
-select = st.radio("", ("variable", "function"))
+st.title("Generative AI")
 
 with st.form("form"):
-    if select is "variable":
-        vars = st.text_input("Tell me about your variables")
-    elif select is "function":
-        args = st.text_input("Args")
-        returns = st.text_input("Returns")
+    user_input = st.text_input("Prompt")
+    size = st.selectbox("Size", [ "256x256", "512x512", "1024x1024"])
     submit = st.form_submit_button("submit")
 
-user_prompt = ""
-if(select is "variable" and vars):
-    user_prompt = vars
-elif(select is "function" and args and returns):
-    user_prompt = "a function that takes " + args + " factor and returns " + returns
-
-if submit and user_prompt != "":
+if submit and user_input:
     GPT_Prompt = [{
         "role": "system",
-        "content": "Tell me in one short word so that I can use it as a variable or function name"
+        "content": "영어 한 단어로 바꿔줘"
     }]
     GPT_Prompt.append({
         "role": "user",
-        "content" : user_prompt
+        "content": user_input
     })
-    GPT_response = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
-        messages = GPT_Prompt
-    )
-    prompt = GPT_response["choices"][0]["message"]["content"]
-    st.write(prompt)
+    with st.spinner("Translating..."):
+        GPT_response = openai.ChatCompletion.create(
+            model = "gpt-3.5-turbo",
+            messages = GPT_Prompt
+        )
+    word_eng = GPT_response["choices"][0]["message"]["content"]
+
+    prompt_dalle = f"Please draw {word_eng} in Claude Monet's style"
+
+    with st.spinner("Wating for DALL-E..."):
+        dalle_response = openai.Image.create(
+            prompt = prompt_dalle,
+            size = size
+        )
+    st.image(dalle_response["data"][0]["url"])
