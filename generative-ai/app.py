@@ -1,6 +1,10 @@
 import streamlit as st
 import openai
 
+st.set_page_config(
+    page_title="Naming for Programmer",
+)
+
 openai.api_key = st.secrets["api_key"]
 
 st.title("Generative AI")
