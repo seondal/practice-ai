@@ -1,4 +1,4 @@
-## teachable-machine
+# teachable-machine
 
 > Teachable Machine 이미지 학습 주제 설정 및 모델 만들기
 
@@ -9,7 +9,7 @@
 <br>
 <br>
 
-## generative-ai
+# generative-ai
 
 > Streamlit, Open AI(Chat GPT, DALL-E) API를 이용한 유화풍 이미지 생성 웹사이트
 
@@ -20,7 +20,7 @@
 <br>
 <br>
 
-## naming-for-programmer
+# naming-for-programmer
 
 > Streamlit, Open AI API를 이용한 개발자 함수명/변수명 추천 서비스
 
